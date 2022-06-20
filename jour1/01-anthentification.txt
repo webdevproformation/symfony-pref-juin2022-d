@@ -23,9 +23,130 @@ ajouter dans ce site 3 liens :
 => utilisateur admin => Accueil / Article / edit / inscription / login / logout
 
 ajouter une nouvelle fonctionnalité 
+cd securite
+
 composer req security
+=> gérer l'authentification et autorisation
 
-symfony-pref-juin2022-d
+composer req maker --dev
+=> créer des fichiers dans notre projet 
+symfony console make:......
+symfony console make:entity
+symfony console make:form
+symfony console make:migration
 
 
+composer => télécharger des librairies depuis le site packagist.org
 
+composer require security 
+composer req maker profiler --dev 
+
+flag ou drapeau (option supplémentaire lors du téléchargement)
+
+--dev => fonctionnalité est à utiliser QUE lors de la phase de développement 
+         aider le développeur pendant qu'il crée le projet 
+
+=> fonctionnalité OBLIGATOIRE pour le projet quel que soit la phase 
+   pendant le développement / pendant la mise en production (sur l'hébergeur)
+
+dans le fichier composer.json 
+{
+    "require" : {""} => DEPENDANCES OBLIGATOIRES du projet dev / prod
+    "require-dev" : {""} => DEPENDANCES OBLIGATOIRES uniquement pendant la phase de dev
+}
+
+symfony new ...
+symfony new ... --full
+symfony new ... --webapp
+
+composer req twig => update / install 
+
+config/packages/security.yaml
+
+password_hashers: => stocker des mots de passe / récupérer => hasher (crypter) => détermine comment les mots de passe doivent être crypter / hasher
+
+providers: => où aller chercher les informations pour l'authentification 
+            stocker les informations dans la base (table user) email / password / role 
+
+firewalls: => qui va définir comment fonctionne le système d'authentification 
+                connecter 
+                deconnecter
+                où chercher les informations
+                information dans le session
+                coeur du système d'authentification / autorisation 
+
+access_control: => 
+            en fonction d'une uri 
+            https://127.0.0.1:8000/article => CONNECTE (avoir le rôle CONNECTE)
+            https://127.0.0.1:8000/edit => ADMIN  (avoir le rôle ADMIN)
+            https://127.0.0.1:8000/edit/1 => ADMIN  
+            groupe d'adresse sur vote site => rôle déterminé 
+
+role_hierarchy:
+            liste des roles / hiérarchie 
+            non connecté => utilisateur de base 
+            connecté => connecté + utilisateur non connecté
+            admin => admin + connecté
+            => pas de limite dans la quantité de rôle 
+
+composer req form security orm twig annotations
+composer require profiler debug --dev 
+
+l'ordre dans lequel vous installez nouveaux composants n'a pas d'importance 
+
+composer req orm form
+
+symfony new ....  => coeur de symfony / minimal de symfony 
+symfony new .... --webapp 
+symfony new .... --full  
+
+php bin/console make:entity
+
+symfony console make:user => 
+
+créer le fichier User.php (Entité)
+un peu différentes des autres entités 
+    - implémente implements UserInterface, PasswordAuthenticatedUserInterface
+    - getPassword() eraseCredentials() getRoles()
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    private $email;
+
+modifier  password_hashers: / providers: security.yaml
+
+-
+
+faire en sorte qu'il y ait une table user dans une base de données 
+
+MySQL => .env 
+
+# windows xampp / wamp
+DATABASE_URL="mysql://root:@127.0.0.1:3306/security?serverVersion=5.7&charset=utf8mb4"
+
+# macos mamp
+# DATABASE_URL="mysql://root:root@127.0.0.1:3306/security?serverVersion=5.7&charset=utf8mb4"
+
+sqlite / mysql => il faut démarrer mysql pour pouvoir l'utiliser 
+
+IL FAUT DEMARRER mySQL WAMP / XAMPP / MAMP 
+
+symfony console doctrine:database:create
+
+symfony console make:migration 
+
+symfony console doctrine:migrations:migrate 
+
+ajouter un compte utilisateur dans la table user 
+
+- SQL => INSERT 
+
+- Formulaire => login / passwword / role => INSERT (doctrine)
+
+
+symfony console list doctrine => toutes les commandes qui commencent doctrine 
+
+symfony console doctrine:query:sql "INSERT INTO user (email, roles , password) VALUES ('toto@yahoo.fr' , '[\"ROLE_ADMIN\"]' , 'azerty')"
+
+
+symfony console security:hash-password
+
+symfony console doctrine:query:sql "INSERT INTO user (email, roles , password) VALUES ('toto2@yahoo.fr' , '[\"ROLE_ADMIN\"]' , '$2y$13$ZgRyBFPVt7nillx4a9ciDek9alBWz8azQkaRz2Gi8xQdfai6vcqfG')"
