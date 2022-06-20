@@ -8,22 +8,13 @@
     </head>
     <body>
     <div class="container">
-        
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="{{ path("home_index")}}">Accueil</a></li>
-            {% if is_granted("ROLE_REDACTEUR") %}
-                <li class="list-inline-item"><a href="{{ path("home_article")}}">Article</a></li>
-            {% endif %}
-            {% if is_granted("ROLE_ADMIN") %}
-                <li class="list-inline-item"><a href="{{ path("home_edit")}}">Edit</a></li>
-                <li class="list-inline-item"><a href="{{ path("app_register")}}">Inscription</a></li>
-            {% endif %}
-            {% if app.user is null %}
-                <li class="list-inline-item"><a href="{{ path("app_login")}}">Connexion</a></li>
-            {% else %}
-                <li class="list-inline-item"><a href="{{ path("app_logout")}}">Déconnexion</a></li>
-            {% endif %}
-        </ul>
+        <header class="d-flex my-3">
+            {% include "commun/menu.html.twig" %}
+            <form action="" method="POST" class="d-flex ms-auto">
+                <input type="search" name="search" class="form-control" placeholder="rechercher">
+                <input type="submit" class="btn btn-danger ms-2">
+            </form>
+        </header>
         {% block body %}{% endblock %}
     </div>
     </body>

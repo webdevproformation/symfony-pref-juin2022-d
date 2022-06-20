@@ -1,0 +1,23 @@
+
+Creer une entité Article
+
+titre string 200 lettres max Validation min de 3 lettres
+
+contenu text Validation min de 3 lettres
+dt_creation datetime (par défaut = maintenant) validation doit être une datetime
+
+------------
+
+créer le formulaire pour ajouter des article 
+
+----- 
+
+utiliser le formulaire pour créer deux articles 
+
+=> SESSION 
+
+=> $this->addFlash()
+=> app.user 
+
+=> SESSION 
+=> deuxième projet ensemble !! 
