@@ -1,0 +1,115 @@
+support de cours :
+
+https://formation.webdevpro.net/symfony/
+login : symfony
+password : version6
+
+----------------------
+
+Relations 
+
+4 types de relations entre les entités (tables)
+
+OneToOne
+ManyToOne OneToMany
+ManyToMany 
+
+Une Ville possède PLUSIEURS Rue OneToMany
+Une RUE est possèdée par Une Ville
+
+Ville
+#[ORM\OneToMany(targetEntity:Rue::class , mappedBy:"ville")]
+private $rues 
+// contenir la clé primaire dans la relation
+
+---------
+
+Rue 
+#[ORM\ManyToOne(targetEntity:Ville::class , inversedBy:"rues")]
+private $ville
+// contenir la clé secondaire dans la relation 
+// ville_id
+
+clé primaire et une clé secondaire 
+
+
+
+-------------
+-------------
+
+Etudiant 
+#[ORM\OneToOne(targetEntity:Adresse::class , mappedBy:"etudiant")]
+private $adresse 
+
+Adresse 
+#[ORM\OneToOne(targetEntity:Etudiant::class , inversedBy:"adresse")]
+private $etudiant 
+// clé secondaire => pas possible d'avoir deux adresses qui sont associées au même étudiant
+
+
+Etudiant 
+#[ORM\OneToOne(targetEntity:Adresse::class , inversedBy:"etudiant")]
+private $adresse 
+// clé secondaire => pas possible d'avoir deux étudiants qui ont la même adresse
+
+Adresse 
+#[ORM\OneToOne(targetEntity:Etudiant::class , mappedBy:"adresse")]
+private $etudiant 
+
+
+Auteur  1-1 Image 
+Article 1-1 Image
+Auteur (inversedBy) et Article (inversedBy) => clé secondaire 
+Image (mappedBy) dans les deux relations => clé primaire de la relation 
+
+
+
+----------------------
+
+
+Etudiant 
+#[ORM\OneToOne(targetEntity:Adresse::class , inversedBy:"etudiant" , cascade:["persist", "remove"])]
+private $adresse 
+// clé secondaire => pas possible d'avoir deux étudiants qui ont la même adresse
+
+Adresse 
+#[ORM\OneToOne(targetEntity:Etudiant::class , mappedBy:"adresse" , cascade:["persist", "remove"])]
+private $etudiant 
+
+// propriété facultative => EFFET EN CASCADE 
+=> supprimer un enregistrement lié à un autre 
+=> modifier clé primaire
+
+persist => 
+remplir et valider un formulaire qui contient  une nom etudiant ET en même temps son adresse (des colonnes qui sont dans deux tables / entité différentes )
+INSERT  => ID 
+INSERT  => ajouter dans la clé secondaire 
+
+
+remove 
+si je supprime l'enregistement ayant la clé primaire => supprimer le enregistement ayant des clés secondaires associés dans l'autre table 
+
+// -------------------------
+
+// créer un nouveau projet Symfony dans le dossier en cours 
+// nom du projet => securite
+
+// installer les fonctionnalités suivantes : twig / profiler / debug / annotations 
+
+// 1 controller HomeController 
+// contenant 3 routes => /           Page d'accueil
+//                       /article => article 
+//                       /edit    => page d'edition 
+
+symfony new securite
+
+cd securite 
+composer require twig annotations
+composer require profiler debug --dev 
+
+symfony server:start
+
+-----------------
+
+src 
+

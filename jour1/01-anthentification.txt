@@ -1,0 +1,31 @@
+
+ajouter dans ce site 3 liens :
+=> formulaire inscription => créer un profil utilisateur 
+    - email 
+    - password 
+    - role 
+
+    => Request ($_POST)
+
+=> formulaire de connexion 
+    - email
+    - password
+
+    => Request ($_POST)
+
+=> deconnexion (logout)
+
+----------------------------------
+
+=> hiérarchie de rôle 
+=> utilisateur non connecté => Accueil / inscription / login / logout 
+=> utilisateur connecté => Accueil / Article / inscription / login / logout
+=> utilisateur admin => Accueil / Article / edit / inscription / login / logout
+
+ajouter une nouvelle fonctionnalité 
+composer req security
+
+symfony-pref-juin2022-d
+
+
+
