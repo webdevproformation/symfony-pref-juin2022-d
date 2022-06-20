@@ -139,7 +139,7 @@ ajouter un compte utilisateur dans la table user
 
 - SQL => INSERT 
 
-- Formulaire => login / passwword / role => INSERT (doctrine)
+- Formulaire => login / password / role => INSERT (doctrine)
 
 
 symfony console list doctrine => toutes les commandes qui commencent doctrine 
@@ -150,3 +150,55 @@ symfony console doctrine:query:sql "INSERT INTO user (email, roles , password) V
 symfony console security:hash-password
 
 symfony console doctrine:query:sql "INSERT INTO user (email, roles , password) VALUES ('toto2@yahoo.fr' , '[\"ROLE_ADMIN\"]' , '$2y$13$ZgRyBFPVt7nillx4a9ciDek9alBWz8azQkaRz2Gi8xQdfai6vcqfG')"
+
+=> rdv 13h50 !!!!!
+
+---------------------------
+
+=> formulaire de connexion => toto2@yahoo.fr // azerty 
+
+=> créer une formulaire => créer des nouveaux profils user 
+
+=> créer un formulaire => login / deconnexion 
+
+
+symfony console make:auth 
+
+=> créer plusieurs fichiers 
+Authentificator / 
+ dans cette méthode  onAuthenticationSuccess()
+ return new RedirectResponse($this->urlGenerator->generate('home_index'));
+ si ce qui est saisit est correct => aller vers la home du site 
+
+Controller / 
+template .html.twig 
+
+=> update => security.yaml => ajout dans le firewalls: main:
+
+
+// .env 
+// # windows xampp / wamp
+DATABASE_URL="mysql://root:@127.0.0.1:3306/security?serverVersion=mariadb-10.4.24&charset=utf8mb4"
+
+symfony console doctrine:migrations:sync-metadata-storage
+
+// base.html.twig =>
+
+<li class="list-inline-item"><a href="{{ path("app_login")}}">Connexion</a></li>
+<li class="list-inline-item"><a href="{{ path("app_logout")}}">Déconnexion</a></li>
+
+----------------------- 
+
+symfony console security:hash-password
+
+symfony console doctrine:query:sql "INSERT INTO user (email, roles , password) VALUES ('toto3@yahoo.fr' , '[\"ROLE_ADMIN\"]' , '$2y$13$ZgRyBFPVt7nillx4a9ciDek9alBWz8azQkaRz2Gi8xQdfai6vcqfG')"
+
+-------- 
+
+formulaire d'inscription 
+    - email 
+    - password 
+
+composer require symfonycasts/verify-email-bundle
+composer require validator
+symfony console make:registration-form
