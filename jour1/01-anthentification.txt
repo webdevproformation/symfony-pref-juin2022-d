@@ -202,3 +202,30 @@ formulaire d'inscription
 composer require symfonycasts/verify-email-bundle
 composer require validator
 symfony console make:registration-form
+
+
+
+-------------------
+
+ROLE (DROITS)
+
+hierarchie 
+    certains rôles ont plus d'accès que d'autres .
+    ROLE_BASE: ROLE_USER
+    ROLE_REDACTEUR: ROLE_BASE
+    ROLE_ADMIN: ROLE_REDACTEUR
+
+    => role => ROLE_....
+
+security.yaml
+
+    access_control:
+        - { path: ^/article, roles: ROLE_REDACTEUR }
+        - { path: ^/edit, roles: ROLE_ADMIN }
+
+    role_hierarchy:
+        ROLE_BASE: ROLE_USER
+        ROLE_REDACTEUR: ROLE_BASE
+        ROLE_ADMIN: ROLE_REDACTEUR
+
+=> comment ajouter un menu déroulant pour choisir le rôle du profil utilisteur

@@ -22,7 +22,7 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
 
-            # activate different ways to authenticate
+            # activate different ways to authenticate 
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
@@ -31,8 +31,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/article, roles: ROLE_REDACTEUR }
+        - { path: ^/(edit|register), roles: ROLE_ADMIN }
+
+    role_hierarchy:
+        ROLE_BASE: ROLE_USER
+        ROLE_REDACTEUR: ROLE_BASE
+        ROLE_ADMIN: ROLE_REDACTEUR
 
 when@test:
     security:
