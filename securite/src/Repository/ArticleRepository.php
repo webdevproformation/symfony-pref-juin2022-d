@@ -39,6 +39,25 @@ class ArticleRepository extends ServiceEntityRepository
         }
     }
 
+    public function rechercher(string|null $motCle ): array{
+
+        if($motCle === null || strlen($motCle) === 0){
+            return [];
+        }
+
+        $queryBuilder = $this->createQueryBuilder("a")
+             ->orWhere("a.titre LIKE :motCle")
+             ->orWhere("a.contenu LIKE :motCle")
+             ->setParameter("motCle" , "%$motCle%");
+
+        $query =  $queryBuilder->getQuery();
+        return $query->getResult();
+
+        // Dans le controller
+        //  $resultats = $articleRepo->rechercher($motCle);
+    }
+
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */

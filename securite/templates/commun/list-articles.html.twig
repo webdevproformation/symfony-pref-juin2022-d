@@ -1,0 +1,9 @@
+<article>
+    <h2>{{ article.titre }}</h2>
+    <p>{{ article.contenu }}</p>
+    <ul>
+        <li>{{ article.dtCreation | date("d/m/Y") }}</li>
+        <li>{{ article.user ?  article.user.email : "auteur inconnu" }}</li>
+    <ul>
+</article>
+<hr>

@@ -2,6 +2,7 @@
     <li class="list-inline-item"><a href="{{ path("home_index")}}">Accueil</a></li>
     {% if is_granted("ROLE_REDACTEUR") %}
         <li class="list-inline-item"><a href="{{ path("home_article")}}">Article</a></li>
+        <li class="list-inline-item"><a href="{{ path("home_new_article")}}">nouveau Article</a></li>
     {% endif %}
     {% if is_granted("ROLE_ADMIN") %}
         <li class="list-inline-item"><a href="{{ path("home_edit")}}">Edit</a></li>

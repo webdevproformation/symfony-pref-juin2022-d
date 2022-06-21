@@ -26,7 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
-    #[ORM\OneToMany(targetEntity:User::class , mappedBy:"user")]
+    #[ORM\OneToMany(targetEntity:Article::class , mappedBy:"user")]
     private $articles ;
 
     #[ORM\Column(type: 'string')]
@@ -108,14 +108,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Article>
      */
     public function getArticles(): Collection
     {
         return $this->articles;
     }
 
-    public function addArticle(User $article): self
+    public function addArticle(Article $article): self
     {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
@@ -125,7 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeArticle(User $article): self
+    public function removeArticle(Article $article): self
     {
         if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
@@ -136,4 +136,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+   
 }

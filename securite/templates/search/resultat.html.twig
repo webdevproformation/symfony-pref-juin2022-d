@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Resultat {% endblock %}
+
+{% block body %}
+    <h1>Resultat </h1>
+    <h2>nb articles trouvés : {{ resultats | length  }} pour le mot "{{ motCle }}"</h2>
+    {% for article in resultats %}
+       {% include "commun/list-articles.html.twig" %}
+    {% endfor %}
+{% endblock %}

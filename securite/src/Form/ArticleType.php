@@ -17,10 +17,10 @@ class ArticleType extends AbstractType
         $builder
             ->add('titre')
             ->add('contenu')
-            ->add("user" , EntityType::class , [
+            /* ->add("user" , EntityType::class , [
                 "class" => User::class,
                 "choice_label" => "email"
-            ])
+            ]) */
             ->add("save", SubmitType::class , ["label" => "créer nouvel article"])
         ;
     }

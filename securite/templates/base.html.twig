@@ -10,7 +10,7 @@
     <div class="container">
         <header class="d-flex my-3">
             {% include "commun/menu.html.twig" %}
-            <form action="" method="POST" class="d-flex ms-auto">
+            <form action="{{ path("search_result") }}" method="POST" class="d-flex ms-auto">
                 <input type="search" name="search" class="form-control" placeholder="rechercher">
                 <input type="submit" class="btn btn-danger ms-2">
             </form>
