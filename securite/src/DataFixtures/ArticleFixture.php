@@ -12,19 +12,14 @@ class ArticleFixture extends Fixture
 {
 
     private $hasher;
-    public function __construct(UserPasswordHasherInterface $hasher)
-    {
+    public function __construct(UserPasswordHasherInterface $hasher){
         $this->hasher = $hasher;
     }
 
-    public function load(ObjectManager $manager ): void
-    {
-
+    public function load(ObjectManager $manager ): void{
         $faker = \Faker\Factory::create("fr_FR");
-       
         $user1 = new User();
         $mdp = $this->hasher->hashPassword($user1 , "123456");
-
         $user1->setEmail("user@yahoo.fr")
               ->setRoles(["ROLE_ADMIN"])
               ->setPassword($mdp);

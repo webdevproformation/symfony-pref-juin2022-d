@@ -6,18 +6,27 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController{
-    #[Route("/" , name:"home_index")]
-    public function index(Request $request , ManagerRegistry $doctrine):Response{
-       
-        $articles = $doctrine->getRepository(Article::class)->findAll();
+    private $paginator ;
+    public function __construct(PaginatorInterface $paginator){
+        $this->paginator = $paginator;
+    }
 
-        return $this->render("home/index.html.twig", [ "articles" => $articles ]);
+    #[Route("/" , name:"home_index")]
+    public function index(Request $request , ManagerRegistry $doctrine  ):Response{
+        $articles = $doctrine->getRepository(Article::class)->findAll();
+        $pagination = $this->paginator->paginate(
+            $articles, 
+            $request->query->getInt('page', 1), /*page number*/
+            10 
+        ); 
+        return $this->render("home/index.html.twig", [  "articles" => $pagination  ]);
     }
 
     #[Route("/article" , name:"home_article")]
