@@ -2,13 +2,23 @@
 Creer une entité Article
 
 titre string 200 lettres max Validation min de 3 lettres
-
 contenu text Validation min de 3 lettres
 dt_creation datetime (par défaut = maintenant) validation doit être une datetime
 
+symfony console make:entity Article
+=> ajouter les Assertions (INSERT et UPDATE)
+
 ------------
 
-créer le formulaire pour ajouter des article 
+créer le formulaire pour ajouter des article
+
+symfony console make:form ArticleType
+
+Ajouter le formulaire dans une route / controller ... 
+
+symfony console make:migration
+
+symfony console doctrine:migrations:migrate
 
 ----- 
 

@@ -1,0 +1,41 @@
+support de cours :
+
+https://formation.webdevpro.net/symfony/
+login : symfony
+password : version6
+
+
+https://github.com/webdevproformation/symfony-pref-juin2022-d
+
+----
+
+?? 
+
+
+Sécurité => 
+
+Authentification + QUI
+Formulaire demande login + password => 
+
+Autorisation + DROIT => Role 
+
+configuration => security.yaml ( coeur )
+
+- hasher les mot de passe 
+- où sont stockées les informations pour l'Authentification
+- /admin => ROLE_ADMIN
+- role_hierarchy
+
+Controller <=> request => formulaire 
+Security (login / logout) / Register (/inscription)
+
+Security/...Authenticator
+
+.html.twig => 
+{% if is_granted(ROLE_ADMIN) %} (est ce que leuser connecté dispose d'un rôle de Admin au minimum)
+    .....
+{% endif %}
+
+{% if app.user %} => $_SESSION (est ce qu'un user est connecté ??)
+    .....
+{% endif %}
