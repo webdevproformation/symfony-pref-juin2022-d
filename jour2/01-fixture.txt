@@ -1,0 +1,15 @@
+outil en ligne de commande qui permet de remplir vos tables
+
+composer require --dev orm-fixtures
+
+symfony console make:fixture ArticleFixture 
+
+
+src/DataFixtures/ArticleFixture.php
+
+
+faker => générer du contenu factice 
+=> packagist 
+=> https://packagist.org/packages/fakerphp/faker
+=> https://fakerphp.github.io/
+=> composer require fakerphp/faker --dev
