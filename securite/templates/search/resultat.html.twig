@@ -4,8 +4,11 @@
 
 {% block body %}
     <h1>Resultat </h1>
-    <h2>nb articles trouvés : {{ resultats | length  }} pour le mot "{{ motCle }}"</h2>
+    <h2>nb articles trouvés : {{ resultats.getTotalItemCount  }} pour le mot "{{ motCle }}"</h2>
     {% for article in resultats %}
        {% include "commun/list-articles.html.twig" %}
     {% endfor %}
+    <div class="navigation d-flex justify-content-center my-3">
+        {{ knp_pagination_render(resultats) }}
+    </div>
 {% endblock %}

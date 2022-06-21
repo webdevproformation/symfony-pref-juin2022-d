@@ -1,1 +1,6 @@
 https://github.com/KnpLabs/KnpPaginatorBundle
+
+------------------
+
+pouvez vous ajouter la pagination dans la page de resultat de recherche 
+passer à autre page pour voir les résultats suivants 
