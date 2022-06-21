@@ -3,8 +3,12 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+
+    {% set prix = 12345 %}
+    <p>{{ prix | prixFr(1.2) }}</p>
+    <p>{{ prix | prixFr }}</p>
     <h1>page d'accueil <small class="fs-5"> {{ app.user ?  "bienvenu " ~ app.user.email : "" }}</small></h1>
-    <h2>nb articles publiés : {{ articles | length  }}</h2>
+    <h2>nb articles publiés : {{ articles.getTotalItemCount  }}</h2>
     {% for article in articles %}
        {% include "commun/list-articles.html.twig" %}
     {% endfor %}
