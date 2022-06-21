@@ -31,3 +31,28 @@ utiliser le formulaire pour créer deux articles
 
 => SESSION 
 => deuxième projet ensemble !! 
+
+=> 10h50 bon café !!
+
+// symfony console make:migration => fichier de migration Version??????????
+
+// symfony console doctrine:migrations:migrate => exécuter les requetes SQL structure des tables
+
+// CREATE TABLE si la table exist dejà 
+
+
+// cas pratique : créer une relation etre deux tables // mettre 
+// à jour le formulaire de création d'article 
+
+// User // Article
+
+// relation OneToMany ManyToOne
+
+// Un User peut créer PLUSIEURS articles 
+// UN article ne peut être associé qu'à UN AUTEUR 
+
+// mettre à jour la base 
+
+// mettre le formulaire pour diposer d'un menu déroulant 
+// pour associé un article à un auteur 
+

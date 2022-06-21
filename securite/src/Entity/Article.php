@@ -26,9 +26,15 @@ class Article
     #[Assert\Type("datetime")]
     private $dt_creation;
 
+    #[ORM\ManyToOne(targetEntity:User::class, inversedBy:"articles", cascade:["persist", "remove"])]
+    private $user;
+
     public function __construct()
     {
-        $this->setDtCreation(new \DateTime()); 
+        $tz = new \DateTimeZone('Europe/Paris');
+        $now = new \DateTime();
+        $now->setTimezone($tz);	
+        $this->setDtCreation($now); 
     }
 
     public function getId(): ?int
@@ -68,6 +74,18 @@ class Article
     public function setDtCreation(\DateTimeInterface $dt_creation): self
     {
         $this->dt_creation = $dt_creation;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

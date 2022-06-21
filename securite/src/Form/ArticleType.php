@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,6 +17,10 @@ class ArticleType extends AbstractType
         $builder
             ->add('titre')
             ->add('contenu')
+            ->add("user" , EntityType::class , [
+                "class" => User::class,
+                "choice_label" => "email"
+            ])
             ->add("save", SubmitType::class , ["label" => "créer nouvel article"])
         ;
     }
