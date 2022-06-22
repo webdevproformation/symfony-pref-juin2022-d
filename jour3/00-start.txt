@@ -127,7 +127,53 @@ symfony console make:entity Vehicule
 - prix_journalier (int 3) => integer 
 - date_enregistrement (datetime) => datetime 
 
+(ajouter un constructeur et attention à la timezone !!)
+
 => src/Entity/Vehicule.php ( regarder ET ajouter dès maintenant les validations ) 
+
+
+- pseudo (varchar 20)
+- mdp (varchar 60) => (utiliser la norme => password)
+- nom (varchar 20)
+- prenom (varchar 20)
+- email (varchar 50)
+- civilite (enum : m,f)
+- statut (int 3)  => utiliser la norme => roles
+- date_enregistrement (datetime)
+
+symfony console make:user => utilisation facilité 
+email (varchar 50)
+mdp (varchar 60) => (utiliser la norme => password)
+statut (int 3)  => utiliser la norme => roles
+=> https://symfony.com/doc/current/security.html
+
+
+- pseudo (varchar 20)
+- nom (varchar 20)
+- prenom (varchar 20)
+- civilite (enum : m,f) => string 1
+- date_enregistrement (datetime)
+
+symfony console make:entity (pour compléter les champs manquants)
+
+modifier manuellement les entités (champs) / supprimer setter et getter 
+symfony console make:entity --regenerate (attention uniquement si le fichier User.php n'est pas en cours d'édition / enregistrer ce fichier ET fermé )
+
+
+=> ajouter les Constraints as Assert
+
+#[ORM\Column(type: 'string', length: 1)]
+#[Assert\Choice(callback:"getGenres")]
+private $civilite;
+
+public function getGenres() : array{
+    return ["m" , "f"];
+}
+
++ constructeur et timezone pour date date_enregistrement
+
+------------------------
+
 
 
 
