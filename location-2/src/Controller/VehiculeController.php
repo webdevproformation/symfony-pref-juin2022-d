@@ -27,6 +27,26 @@ class VehiculeController extends AbstractController{
        return $this->render( "vehicule/list.html.twig" , ["vehicules" => $vehicules]);
     }
 
+    #[Route("/supp/{id}" , name:"vehicule_suppr")]
+    public function suppr($id){
+
+        $vehiculeASupprimer = $this->em->getRepository(Vehicule::class)->find($id);
+
+        if($vehiculeASupprimer){
+            // suppression du fichier dans le dossier upload
+            $dossier_upload = $this->getParameter("upload_directory");
+            $photo = $vehiculeASupprimer->getPhoto();
+            unlink($dossier_upload . "/" . $photo); 
+            // fin suppression du fichier dans le dossier upload
+
+            $this->em->remove($vehiculeASupprimer);
+            $this->em->flush();
+        }
+
+        return $this->redirectToRoute("vehicule_list");
+
+    }
+
     #[Route("/new" , name:"vehicule_new")]
     public function new(Request $request  ) :Response{
         $vehicule = new Vehicule();
