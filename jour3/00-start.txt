@@ -1,0 +1,93 @@
+pas d'obligation en terme de design 
+
+
+créer les bases de données et etablir les relations
+
+vehicule UN véhicule associé à PLUSIEURS COMMANDES
+
+commande 
+
+membre (user) UN membre associé à PLUSIEURS COMMANDES
+
+------------------- 
+
+Front Office 
+  - Page d'accueil => recherche => 
+  - resultat => cliquer 
+  - Page s'incrire / se connecter  => clique 
+  - Mon COmpte => Finaliser la commande (confirmation)
+      avec véhicule + critère de recherche  + QUI => CREER remplir la table commande 
+
+---------------------
+
+Back Office 
+   - Gérer des véhicules => CREER / MODIFIER / SUPPRIMER / VOIR 
+   - Gérer les membres (users) => CREER / MODIFIER / SUPPRIMER / VOIR 
+   - Gérer les commandes => VOIR / MODIFIER / SUPPRIMER
+
+---------------------
+
+    ROLE_USER  
+    ROLE_MEMBRE => (membre uniquement via le front)
+    ROLE_ADMIN  => (espace membre + admin)
+
+------------------------
+
+Quelle est la liste des composants qu'il faut installer pour réaliser ce projet ??
+
+=> base de données => orm
+=> controller  => annotations
+=> html => twig + asset
+=> formulaire => form 
+=> authentification / autorisation => security + symfonycasts/verify-email-bundle
+=> validator
+
+=> aider debug profiler maker 
+
+------------------------
+
+combien de controller ???? 
+
+autant de controller que de pages dans le site ???
+
+regrouper des pages dans un controller FrontController ???
+
+------------------------
+
+Sqlite / MySQL / MariaDB => votre choix 
+
+composer 
+https://github.com/webdevproformation/symfony-init-juin22-d (1ère semaine)
+rappel en PHP => namespace / use 
+composer packagist yaml 
+installation des binaires symfony .... // php bin composer 
+premier symfony (architecture)
+controller 
+twig 
+annotations 
+orm => créer une base 
+
+https://github.com/webdevproformation/-webdevproformation-symfony-inter-juin2022-d (2ème semaine)
+formulaire
+liaison entre entite / type / form / vue 
+entité seul (sans liaison)  CRUD entity Manager / reposiroty 
+validation Assert\ dans l'entité 
+route partie variable http://localhost:8000/article
+route partie variable http://localhost:8000/article/123
+relations entre les tables => OneToMany ManyToOne => CRUD
+relation entre les tables => OneToOne OneToOne
+télécharger des images ( prendre )
+ajouter dans une formulaire <input type="file"> => télécharger / déplacer / stocker son url dans la base de données   
+
+https://github.com/webdevproformation/symfony-pref-juin2022-d (cette semaine)
+=> authentification / autorisation (package security)
+=> relation / utiliser le profil user dans les formulaires ($this->getUser())
+=> fixture avec faker 
+=> pagination avec knp paginator 
+=> recherche ( SELECT personnalisé )
+
+
+=> string 1 non null
+=> validation => #[Assert\Choice(["M", "F"])] 
+=> formulaire => ChoiceType::class F / M
+=> https://www.doctrine-project.org/projects/doctrine-orm/en/2.11/cookbook/mysql-enums.html
