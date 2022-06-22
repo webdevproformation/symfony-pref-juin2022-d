@@ -6,6 +6,7 @@ use App\Entity\Vehicule;
 use App\Form\VehiculeType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,11 +28,41 @@ class VehiculeController extends AbstractController{
        return $this->render( "vehicule/list.html.twig" , ["vehicules" => $vehicules]);
     }
 
+    #[Route("/update/{id}" , name:"vehicule_update")]
+    public function update(Request $request , $id) :Response{
+        $vehicule = $this->em->getRepository(Vehicule::class)->find($id);
+
+        if($vehicule === null) return $this->redirectToRoute("vehicule_list"); 
+
+        $form = $this->createForm(VehiculeType::class, $vehicule);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            // récupérer le fichier 
+            // le nommer le déplacer 
+            //$file = $request->files->get("vehicule")["photo"];
+            $file = $form["photo"]->getData();
+            if($file){
+                $dossier_upload = $this->getParameter("upload_directory");
+                $photo = md5(uniqid()) . "." . $file->guessExtension(); // .jpg
+                
+                $file->move( $dossier_upload , $photo  ); 
+    
+                $vehicule->setPhoto($photo);
+            }
+           
+            $this->em->persist($vehicule);
+            $this->em->flush();
+            return $this->redirectToRoute("vehicule_list");
+        }
+        return $this->render("vehicule/new.html.twig" , [
+            "form" => $form->createView()
+        ]);
+    }
+
     #[Route("/supp/{id}" , name:"vehicule_suppr")]
-    public function suppr($id){
-
+    public function suppr($id) :RedirectResponse{
         $vehiculeASupprimer = $this->em->getRepository(Vehicule::class)->find($id);
-
         if($vehiculeASupprimer){
             // suppression du fichier dans le dossier upload
             $dossier_upload = $this->getParameter("upload_directory");
@@ -42,9 +73,7 @@ class VehiculeController extends AbstractController{
             $this->em->remove($vehiculeASupprimer);
             $this->em->flush();
         }
-
         return $this->redirectToRoute("vehicule_list");
-
     }
 
     #[Route("/new" , name:"vehicule_new")]
