@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VehiculeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,12 +43,18 @@ class Vehicule
     #[Assert\Type("datetime")]
     private $date_enregistrement; // create => constructeur 
 
+
+    #[ORM\OneToMany(targetEntity:Commande::class , mappedBy:"vehicule")]
+    private $commandes ;
+
+
     public function __construct()
     {
         $tz = new \DateTimeZone('Europe/Paris');
         $now = new \DateTime();
         $now->setTimezone($tz);	
-        $this->setDateEnregistrement($now); 
+        $this->setDateEnregistrement($now);
+        $this->commandes = new ArrayCollection(); 
     }
 
     public function getId(): ?int
@@ -134,6 +142,36 @@ class Vehicule
     public function setDateEnregistrement(\DateTimeInterface $date_enregistrement): self
     {
         $this->date_enregistrement = $date_enregistrement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setVehicule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getVehicule() === $this) {
+                $commande->setVehicule(null);
+            }
+        }
 
         return $this;
     }

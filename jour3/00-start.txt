@@ -174,7 +174,60 @@ public function getGenres() : array{
 
 ------------------------
 
+commande 
 
+- date_heure_depart (datetime)
+- date_heure_fin (datetime)
+- prix_total (int 3)
+- date_enregistrement (datetime)
+
+symfony console make:entity Commande
+
+
+---------------- 
+
+relation 
+
+PK => Primary Key (clé primaire)
+FK => Foreign Key (clé étrangère / clé secondaire)
+
+
+véhicule peut être loué plusieurs fois 
+user peut réaliser plusieurs location 
+
+=> OneToMany // ManyToOne
+
+=> UN véhicule peut être commandé PLUSIEURS fois OneToMany 
+=> ManyToOne (entité commande) => elle qui contient la clé secondaire 
+
+
+-------------------
+
+# XAMPP (mariadb) windows 
+# WAMP (mysql) windows 
+# MAMP (mysql) MacOS
+
+DATABASE_URL="mysql://root:@127.0.0.1:3306/location?serverVersion=mariadb-10.4.24&charset=utf8mb4"
+
+symfony console doctrine:database:create
 
 
 symfony console make:migration 
+
+symfony console doctrine:migrations:migrate 
+
+
+=> créer la structure de votre base de données 
+
+
+Back 
+=> CRUD créer des véhicules
+=> CRUD des users
+
+
+commande front rechercher / s'inscrire => 
+=> créer
+
+back
+=> CRUD
+
