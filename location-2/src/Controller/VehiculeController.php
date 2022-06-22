@@ -31,7 +31,6 @@ class VehiculeController extends AbstractController{
     #[Route("/update/{id}" , name:"vehicule_update")]
     public function update(Request $request , $id) :Response{
         $vehicule = $this->em->getRepository(Vehicule::class)->find($id);
-
         if($vehicule === null) return $this->redirectToRoute("vehicule_list"); 
 
         $form = $this->createForm(VehiculeType::class, $vehicule);
