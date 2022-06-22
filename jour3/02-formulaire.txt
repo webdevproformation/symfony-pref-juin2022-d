@@ -1,0 +1,33 @@
+CRUD pour les Entités qui n'ont pas de clé secondaire
+
+vehicule
+
+symfony console make:form VehiculeType
+
+ created: src/Form/VehiculeType.php
+
+
+ https://symfony.com/doc/current/reference/forms/types/choice.html
+
+user => traitement password (hasher)
+
+
+ // créer un nouveau dossier dans public  => créer le dossier upload 
+
+ // garder le chemin de ce dossier dans un fichier de configuration
+
+ config/services.yaml
+
+parameters:
+    upload_directory: "%kernel.project_dir%/public/upload"
+    
+
+$file = $form['photo']->getData();
+if($file){
+    $ou = $this->getParameter("upload_directory");
+    $nom_fichier = md5(uniqid()) . "." . $file->guessExtension();
+
+    $file->move($ou, $nom_fichier);
+
+    $vehicule->setPhoto($nom_fichier);
+}

@@ -221,8 +221,8 @@ symfony console doctrine:migrations:migrate
 
 
 Back 
-=> CRUD créer des véhicules
-=> CRUD des users
+=> CRUD créer des véhicules  
+=> CRUD des users 
 
 
 commande front rechercher / s'inscrire => 
@@ -230,4 +230,29 @@ commande front rechercher / s'inscrire =>
 
 back
 => CRUD
+
+composer require orm => Doctrine
+
+ => Abstraction de SQL + PDO + table / base / enregistrement
+
+CREATE TABLE 
+
+INSERT INTO 
+
+new PDO("" , "root", "")
+
+symfony console make:migration 
+comparaison entre structure des tables ET entité (annotations) => synchro 
+DONC il faut que doctrine puisse se connecter pour pouvoir effectuer la comparaison .env 
+
+
+CRUD vehicule 
+CRUD membre
+
+mise en forme 
+
+rdv 13h40 !!!!!
+
+
+
 
