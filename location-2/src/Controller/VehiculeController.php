@@ -12,8 +12,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 #[Route("/admin/vehicule")]
 class VehiculeController extends AbstractController{
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
+
+    #[Route("/list" , name:"vehicule_list")]
+    public function list():Response{
+       $vehicules = $this->em->getRepository(Vehicule::class)->findAll();
+       return $this->render( "vehicule/list.html.twig" , ["vehicules" => $vehicules]);
+    }
+
     #[Route("/new" , name:"vehicule_new")]
-    public function new(Request $request , EntityManagerInterface $em ) :Response{
+    public function new(Request $request  ) :Response{
         $vehicule = new Vehicule();
         $form = $this->createForm(VehiculeType::class, $vehicule);
         $form->handleRequest($request);
@@ -31,9 +46,9 @@ class VehiculeController extends AbstractController{
 
             $vehicule->setPhoto($photo);
 
-            
-            $em->persist($vehicule);
-            $em->flush();
+            $this->em->persist($vehicule);
+            $this->em->flush();
+            return $this->redirectToRoute("vehicule_list");
         }
         return $this->render("vehicule/new.html.twig" , [
             "form" => $form->createView()
