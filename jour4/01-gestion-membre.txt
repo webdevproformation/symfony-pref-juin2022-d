@@ -13,4 +13,13 @@ yes
  created: src/Controller/RegistrationController.php
  created: templates/registration/register.html.twig
 
- 
+
+=> créer des fichiers / update des fichiers
+=> la création => n'ajout rien en base de données
+
+=> UTILISER ces fichiers => ajoute des datas dans la base de données 
+
+-----------------
+
+créer le code qui permet de supprimer un membre
+créer le code qui permet de mettre à jour les informations décrivant un membre 
