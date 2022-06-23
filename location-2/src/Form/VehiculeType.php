@@ -6,6 +6,7 @@ use App\Entity\Vehicule;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,7 +28,7 @@ class VehiculeType extends AbstractType
             ])
             ->add('description')
             ->add('photo' , FileType::class , ["mapped" => false , "required" => false])
-            ->add('prix_journalier')
+            ->add('prix_journalier', MoneyType::class)
             // ->add('date_enregistrement')
             ->add("save" , SubmitType::class)
         ;

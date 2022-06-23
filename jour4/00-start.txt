@@ -1,0 +1,17 @@
+MoneyType => mettre en forme vos formulaires
+
+
+une fois avoir saisit l'information => 
+
+1234 => 1 234 € 
+
+Twig => https://twig.symfony.com/doc/3.x/
+
+https://twig.symfony.com/doc/3.x/filters/format_currency.html
+
+=> créer notre filtre personnalisé pour les devises 
+
+
+src/ Twig
+
+extension twig + service 

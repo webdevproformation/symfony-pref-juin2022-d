@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Vehicule;
 use App\Form\VehiculeType;
+use App\Services\ImageService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,10 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class VehiculeController extends AbstractController{
 
     private $em;
+    private $imgService;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ImageService $imgService)
     {
         $this->em = $em;
+        $this->imgService = $imgService;
     }
 
 
@@ -42,12 +45,7 @@ class VehiculeController extends AbstractController{
             //$file = $request->files->get("vehicule")["photo"];
             $file = $form["photo"]->getData();
             if($file){
-                $dossier_upload = $this->getParameter("upload_directory");
-                $photo = md5(uniqid()) . "." . $file->guessExtension(); // .jpg
-                
-                $file->move( $dossier_upload , $photo  ); 
-    
-                $vehicule->setPhoto($photo);
+                $this->imgService->updateImage($file , $vehicule );
             }
            
             $this->em->persist($vehicule);
@@ -63,17 +61,15 @@ class VehiculeController extends AbstractController{
     public function suppr($id) :RedirectResponse{
         $vehiculeASupprimer = $this->em->getRepository(Vehicule::class)->find($id);
         if($vehiculeASupprimer){
-            // suppression du fichier dans le dossier upload
-            $dossier_upload = $this->getParameter("upload_directory");
-            $photo = $vehiculeASupprimer->getPhoto();
-            unlink($dossier_upload . "/" . $photo); 
-            // fin suppression du fichier dans le dossier upload
-
+           
+            $this->imgService->deleteImage($vehiculeASupprimer);
             $this->em->remove($vehiculeASupprimer);
             $this->em->flush();
         }
         return $this->redirectToRoute("vehicule_list");
     }
+
+
 
     #[Route("/new" , name:"vehicule_new")]
     public function new(Request $request  ) :Response{
@@ -87,12 +83,7 @@ class VehiculeController extends AbstractController{
             //$file = $request->files->get("vehicule")["photo"];
             $file = $form["photo"]->getData();
 
-            $dossier_upload = $this->getParameter("upload_directory");
-            $photo = md5(uniqid()) . "." . $file->guessExtension(); // .jpg
-            
-            $file->move( $dossier_upload , $photo  ); 
-
-            $vehicule->setPhoto($photo);
+            $this->imgService->moveImage($file , $vehicule );
 
             $this->em->persist($vehicule);
             $this->em->flush();

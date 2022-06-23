@@ -27,7 +27,7 @@
                     <td class="align-middle">{{vehicule.modele}}</td>
                     <td class="align-middle">{{vehicule.description}}</td>
                     <td class="align-middle"><img src="/upload{{ asset(vehicule.photo)}}" alt="" class="img-fluid img-thumbnail border-dark"></td>
-                    <td class="text-end align-middle">{{vehicule.prixJournalier}}</td>
+                    <td class="text-end align-middle">{{vehicule.prixJournalier | deviseFr}}</td>
                     <td class="align-middle">
                         <a href="" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
