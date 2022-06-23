@@ -1,0 +1,16 @@
+
+
+symfonycasts/verify-email-bundle
+
+symfony console make:registration-form
+yes
+no 
+yes 
+13 (vehicule_list)
+
+ updated: src/Entity/User.php
+ created: src/Form/RegistrationFormType.php
+ created: src/Controller/RegistrationController.php
+ created: templates/registration/register.html.twig
+
+ 
