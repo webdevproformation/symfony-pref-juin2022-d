@@ -1,0 +1,30 @@
+créer le formulaire pour créer des commandes 
+
+=> date de debut
+=> date de fin 
+=> menu déroulant => membres existants (par le pseudo)
+=> menu déroulant => vehicules existants (par le titre)
+
+=> nombre de jour entre deux dates => * prix journalier 
+change le prix 
+
+hotel / avion 
+
+Price management => 
+taux d'occupation 
+prix 
+[
+    01/01 - 01/04 => 200,
+    02/04 - 01/06 => 220,
+]
+
+Vehicule 
+OneToMany
+
+=> Prix
+ManytoOne 
+
+Prix 
+id / jour / prix / dt_debut / dt_fin 
+
+=> rechercher pour le véhicule le bon prix => (dt_fin - dt_debut) * prix

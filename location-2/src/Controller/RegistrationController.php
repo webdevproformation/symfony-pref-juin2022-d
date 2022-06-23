@@ -32,13 +32,10 @@ class RegistrationController extends AbstractController
     #[Route("/admin/membre/update/{id}" , name:"register_update" )]
     public function update($id , Request $request, UserPasswordHasherInterface $userPasswordHasher) :Response{
         $membreAModifier = $this->em->getRepository(User::class)->find($id);
-
         if($membreAModifier === null) return $this->redirectToRoute("register_list");
-
         // symfony console make:form RegistrationFormUpdateType
         // User
         $form = $this->createForm(RegistrationFormUpdateType::class , $membreAModifier);
-
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             if($form->get('plainPassword')->getData() != ""){
@@ -54,9 +51,8 @@ class RegistrationController extends AbstractController
             }
             $this->em->persist($membreAModifier);
             $this->em->flush();
-            return $this->redirectToRoute('vehicule_list');
+            return $this->redirectToRoute('register_list');
         }
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
