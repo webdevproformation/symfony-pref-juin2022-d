@@ -23,7 +23,7 @@ class Commande
     private $date_heure_fin;
 
     #[ORM\Column(type: 'integer')]
-    #[Assert\GreaterThan(min : 30)]
+    #[Assert\GreaterThan(value : 30)]
     private $prix_total;
 
     #[ORM\Column(type: 'datetime')]
@@ -35,6 +35,14 @@ class Commande
 
     #[ORM\ManyToOne(targetEntity:User::class, inversedBy:"commandes" , cascade:["persist", "remove"])]
     private $user ; 
+
+    public function __construct()
+    {
+        $tz = new \DateTimeZone('Europe/Paris');
+        $now = new \DateTime();
+        $now->setTimezone($tz);	
+        $this->setDateEnregistrement($now);
+    }
 
     public function getId(): ?int
     {

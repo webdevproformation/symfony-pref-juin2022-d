@@ -5,6 +5,12 @@ créer le formulaire pour créer des commandes
 => menu déroulant => membres existants (par le pseudo)
 => menu déroulant => vehicules existants (par le titre)
 
+
+symfony console make:form CommandeType
+
+https://symfony.com/doc/current/reference/forms/types/entity.html
+
+
 => nombre de jour entre deux dates => * prix journalier 
 change le prix 
 
