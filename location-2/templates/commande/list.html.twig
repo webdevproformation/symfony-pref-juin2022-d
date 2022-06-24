@@ -1,9 +1,9 @@
 {% extends "back-office.html.twig" %}
 
-{% block title %}Liste des véhicules{% endblock %}
+{% block title %}Liste des commandes{% endblock %}
 
 {% block body %}
-    <h1>Liste des membres disponibles</h1>
+    <h1>Liste des membres commandes</h1>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -29,12 +29,12 @@
                     <td class="align-middle">{{ commande.prixTotal | deviseFr }}</td>
                     {#<td class="align-middle">{{ commande.dateEnregistrement | date("d/m/Y H:i:s") }}</td>#}
                     <td class="align-middle">
-                       
+                        {% include "commun/action.html.twig" with {"id" : commande.id , "update": "commande_update" , "delete" : "commande_suppr" }  %}
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colSpan="7">aucun véhicule enregistré pour le moment</td>
+                    <td colSpan="7">aucune commande enregistrée pour le moment</td>
                 </tr>
             {% endfor %}
         </tbody>

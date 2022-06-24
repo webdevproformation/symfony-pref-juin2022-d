@@ -39,6 +39,54 @@ class CommandeRepository extends ServiceEntityRepository
         }
     }
 
+    public function listeVehiculeLoue($dtDebutResa , $dtFinResa):array{
+        $resultat = [];
+        $vehiculeReservee =  $this->createQueryBuilder('c')
+                    //->select("c.id AS idResa", "c.date_heure_depart" , "c.date_heure_fin" ,  "v.id AS idVehicule" , "v.titre")
+                    ->select( "v.id AS idVehicule" )
+                    ->leftjoin( "c.vehicule" , "v" )
+                    ->orWhere('c.date_heure_depart BETWEEN :dtDebut AND :dtFIN')
+                    ->orWhere('c.date_heure_fin BETWEEN :dtDebut AND :dtFIN')
+                    ->orWhere('c.date_heure_depart <= :dtDebut AND c.date_heure_fin >= :dtFIN')
+                    ->setParameter('dtDebut', $dtDebutResa)
+                    ->setParameter('dtFIN', $dtFinResa)
+                    ->getQuery()
+                    ->getResult()
+                ;
+        foreach($vehiculeReservee as $vehicule){
+            $resultat[] = $vehicule["idVehicule"];
+        }
+        return  $resultat ; 
+
+       /*   */
+
+    }
+
+    public function vehiculeDisponibles($dtDebutResa , $dtFinResa){
+        $reserves = $this->listeVehiculeLoue($dtDebutResa , $dtFinResa);
+        // dump($reserves);
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        //return [];
+        return $this->createQueryBuilder('c')
+                    ->leftjoin( "c.vehicule" , "v" )
+                    ->where($qb->expr()->notIn('v.id', $reserves))
+                    ->getQuery()
+                    ->getResult();
+  
+    }
+
+    //               -------------------------------------
+    //              A           x         y
+    //              B         x       y
+    //              C              xy 
+    //              D
+    //              E
+    
+    //            toi       x                 y    => D et E
+    //            toi       x    y                 => C D et E
+    //            toi                 x    y       => C D et E
+
 //    /**
 //     * @return Commande[] Returns an array of Commande objects
 //     */

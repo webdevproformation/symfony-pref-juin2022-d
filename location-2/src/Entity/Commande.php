@@ -32,10 +32,10 @@ class Commande
     #[Assert\Type("datetime")]
     private $date_enregistrement;
 
-    #[ORM\ManyToOne(targetEntity:Vehicule::class, inversedBy:"commandes" , cascade:["persist", "remove"])]
+    #[ORM\ManyToOne(targetEntity:Vehicule::class, inversedBy:"commandes" , cascade:["persist"])]
     private $vehicule ; 
 
-    #[ORM\ManyToOne(targetEntity:User::class, inversedBy:"commandes" , cascade:["persist", "remove"])]
+    #[ORM\ManyToOne(targetEntity:User::class, inversedBy:"commandes" , cascade:["persist"])]
     private $user ; 
 
     public function __construct()

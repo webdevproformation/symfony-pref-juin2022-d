@@ -21,10 +21,46 @@ class CommandeController extends AbstractController{
         // ["commandes" => $commandes  ]
     }
 
-    #[Route("/admin/commande/new" , name:"commande_new")]
-    public function new(Request $request , EntityManagerInterface $em):Response{
+   /*  #[Route("/admin/commande/update/{id}" , name:"commande_update")]
+    public function update(){
+        // ..
+    } */
 
-        $commande = new Commande();
+    /* #[Route("/admin/commande/suppr/{id}" , name:"commande_suppr")]
+    public function delete($id , EntityManagerInterface $em){
+        $commandeAsupprimer = $em->getRepository(Commande::class)->find($id);
+        if($commandeAsupprimer !== null){
+            $em->remove($commandeAsupprimer);
+            $em->flush();
+        }
+        return $this->redirectToRoute("commande_list");
+    } */
+
+    // ParamConverter
+
+    #[Route("/admin/commande/suppr/{id}" , name:"commande_suppr")]
+    public function delete(Commande $commandeASupprimer , EntityManagerInterface $em){
+        
+        if($commandeASupprimer !== null){
+            $em->remove($commandeASupprimer);
+            $em->flush();
+        }
+        return $this->redirectToRoute("commande_list");
+    }
+
+    /**
+     * associer à une méthode plusieurs routes en même temps sur une méthode + ParamConverter 
+     */
+
+    #[Route("/admin/commande/new" , name:"commande_new")]
+    #[Route("/admin/commande/update/{id}" , name:"commande_update")]
+    public function new(Request $request , EntityManagerInterface $em , Commande $commande = null):Response{
+
+        // si /admin/commande/new => $commande = null
+        // si /admin/commande/update/{id} => $commande = $em->getRepository(Commande::class)->find($id); donc $commande = { }
+        if($commande === null){
+            $commande = new Commande();
+        }
 
         $form = $this->createForm(CommandeType::class, $commande);
 
@@ -45,6 +81,9 @@ class CommandeController extends AbstractController{
             if($nbJours < 1){
                 dd("erreur");
             }
+            $listevehiculeLoue = $em->getRepository(Commande::class)->listeVehiculeLoue($dt_debut ,$dt_fin );
+            $listevehiculeDisponible = $em->getRepository(Commande::class)->vehiculeDisponibles($dt_debut ,$dt_fin );
+            dd($listevehiculeLoue , $listevehiculeDisponible); 
 
             $vehicule = $form->get("vehicule")->getData();
             $prix_journalier = $vehicule->getPrixJournalier();
@@ -56,7 +95,8 @@ class CommandeController extends AbstractController{
         }
 
         return $this->render("commande/new.html.twig" , [
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "id"   => $commande->getId()
         ]);
     }
 
