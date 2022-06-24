@@ -4,6 +4,7 @@
 namespace App\Controller ;
 
 use App\Entity\Commande;
+use App\Entity\Vehicule;
 use App\Form\CommandeType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,7 +83,9 @@ class CommandeController extends AbstractController{
                 dd("erreur");
             }
             $listevehiculeLoue = $em->getRepository(Commande::class)->listeVehiculeLoue($dt_debut ,$dt_fin );
-            $listevehiculeDisponible = $em->getRepository(Commande::class)->vehiculeDisponibles($dt_debut ,$dt_fin );
+
+            $listevehiculeDisponible = $em->getRepository(Vehicule::class)->findByVehiculeDisponibles($listevehiculeLoue );
+            
             dd($listevehiculeLoue , $listevehiculeDisponible); 
 
             $vehicule = $form->get("vehicule")->getData();

@@ -69,7 +69,8 @@ class CommandeRepository extends ServiceEntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         //return [];
         return $this->createQueryBuilder('c')
-                    ->leftjoin( "c.vehicule" , "v" )
+                    ->select("v.id")
+                    ->join( "c.vehicule" , "v" )
                     ->where($qb->expr()->notIn('v.id', $reserves))
                     ->getQuery()
                     ->getResult();
