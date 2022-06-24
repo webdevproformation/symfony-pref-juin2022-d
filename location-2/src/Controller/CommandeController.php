@@ -6,6 +6,7 @@ namespace App\Controller ;
 use App\Entity\Commande;
 use App\Entity\Vehicule;
 use App\Form\CommandeType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,6 +62,8 @@ class CommandeController extends AbstractController{
         // si /admin/commande/update/{id} => $commande = $em->getRepository(Commande::class)->find($id); donc $commande = { }
         if($commande === null){
             $commande = new Commande();
+            $commande->setDateHeureDepart( new DateTime())
+                     ->setDateHeureFin(new DateTime());
         }
 
         $form = $this->createForm(CommandeType::class, $commande);
@@ -80,21 +83,34 @@ class CommandeController extends AbstractController{
             $nbJours = $interval->days ; 
 
             if($nbJours < 1){
-                dd("erreur");
+                $this->addFlash("message" , "une reservation doit durer 24h au minimum");
+                //return $this->redirectToRoute("commande_new" , $request->query->all());
             }
+
+
             $listevehiculeLoue = $em->getRepository(Commande::class)->listeVehiculeLoue($dt_debut ,$dt_fin );
-
-            $listevehiculeDisponible = $em->getRepository(Vehicule::class)->findByVehiculeDisponibles($listevehiculeLoue );
-            
-            dd($listevehiculeLoue , $listevehiculeDisponible); 
-
             $vehicule = $form->get("vehicule")->getData();
-            $prix_journalier = $vehicule->getPrixJournalier();
+            if(in_array( $vehicule->getId() , $listevehiculeLoue)){
 
-            $commande->setPrixTotal($nbJours * $prix_journalier);
-            $em->persist($commande);
-            $em->flush();
-            // regarder dans la base de données 
+                $listevehiculeDisponible = $em->getRepository(Vehicule::class)->findByVehiculeDisponibles($listevehiculeLoue );
+                // $listevehiculeDisponible
+                $this->addFlash("message" , "le véhicule demandé est déjà réservé");
+                $this->addFlash("vehicules" , ["disponibles" => $listevehiculeDisponible] );
+                //return $this->redirectToRoute("commande_new" , $request->query->all());
+            }
+
+            // dd($listevehiculeLoue , $listevehiculeDisponible); 
+
+            if(!in_array( $vehicule->getId() , $listevehiculeLoue) && $nbJours >= 1){
+                $prix_journalier = $vehicule->getPrixJournalier();
+
+                $commande->setPrixTotal($nbJours * $prix_journalier);
+                $em->persist($commande);
+                $em->flush();
+                return $this->redirectToRoute("commande_list");
+                // regarder dans la base de données 
+            }
+           
         }
 
         return $this->render("commande/new.html.twig" , [

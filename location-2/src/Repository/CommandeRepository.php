@@ -48,6 +48,7 @@ class CommandeRepository extends ServiceEntityRepository
                     ->orWhere('c.date_heure_depart BETWEEN :dtDebut AND :dtFIN')
                     ->orWhere('c.date_heure_fin BETWEEN :dtDebut AND :dtFIN')
                     ->orWhere('c.date_heure_depart <= :dtDebut AND c.date_heure_fin >= :dtFIN')
+                    ->orWhere('c.date_heure_depart >= :dtDebut AND c.date_heure_fin <= :dtFIN')
                     ->setParameter('dtDebut', $dtDebutResa)
                     ->setParameter('dtFIN', $dtFinResa)
                     ->getQuery()
