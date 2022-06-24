@@ -1,0 +1,14 @@
+page d'accueil 
+
+Page 1
+=> formulaire de recherche => dt debut / dtfin => liste des véhicules disponibles 
+=> choisir le véhicule 
+
+=> page 2 
+=> s'identifier 
+=>  2 formulaires 
+      - login / password 
+      - formulaire de créer de création de profil membre 
+
+=> page 3 la synthèse 
+      - formulaire => finaliser sa commande 

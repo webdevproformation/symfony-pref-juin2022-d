@@ -61,9 +61,17 @@ class CommandeController extends AbstractController{
         // si /admin/commande/new => $commande = null
         // si /admin/commande/update/{id} => $commande = $em->getRepository(Commande::class)->find($id); donc $commande = { }
         if($commande === null){
+            $now = new \DateTime();
+            //$now->add(new \DateInterval("+ 1 "));
+            //$now->format("Y-m-d H:i");
+
+            $tomorrow = new \DateTime();
+            //$tomorrow->add(new \DateInterval("PT1H"));
+            // $tomorrow->format("Y-m-d H:i");
+
             $commande = new Commande();
-            $commande->setDateHeureDepart( new DateTime())
-                     ->setDateHeureFin(new DateTime());
+            /* $commande->setDateHeureDepart(   $now  )
+                     ->setDateHeureFin( $tomorrow ); */
         }
 
         $form = $this->createForm(CommandeType::class, $commande);
@@ -110,7 +118,6 @@ class CommandeController extends AbstractController{
                 return $this->redirectToRoute("commande_list");
                 // regarder dans la base de données 
             }
-           
         }
 
         return $this->render("commande/new.html.twig" , [
