@@ -16,10 +16,12 @@ class Commande
 
     #[ORM\Column(type: 'datetime')]
     #[Assert\Type("datetime")]
+    #[Assert\GreaterThanOrEqual("today")]
     private $date_heure_depart;
 
     #[ORM\Column(type: 'datetime')]
-    #[Assert\Type("datetime")]
+    #[Assert\Type("datetime")] 
+    #[Assert\GreaterThan(propertyPath:"date_heure_depart" )]
     private $date_heure_fin;
 
     #[ORM\Column(type: 'integer')]

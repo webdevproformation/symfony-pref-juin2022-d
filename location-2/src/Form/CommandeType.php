@@ -9,19 +9,25 @@ use App\Twig\FiltreExtension;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class CommandeType extends AbstractType{
     public function __construct(private FiltreExtension $filter){}
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date_heure_depart', DateType::class, [
+            ->add('date_heure_depart', DateTimeType::class, [
                 'widget' => 'single_text',
+                "attr" => [
+                    "min" => (new \DateTime())->format('Y-m-d H:i'), // désactiver les dates avant aujourdhui dans la calendrier
+                ]
             ])
-            ->add('date_heure_fin', DateType::class, [
+            ->add('date_heure_fin', DateTimeType::class, [
                 'widget' => 'single_text',
+                "attr" => [
+                    "min" => (new \DateTime())->format('Y-m-d H:i') // désactiver les dates avant aujourdhui dans la calendrier
+                ]
             ])
             ->add('vehicule' , EntityType::class , [
                 'class' => Vehicule::class,
@@ -45,3 +51,4 @@ class CommandeType extends AbstractType{
         ]);
     }
 }
+
