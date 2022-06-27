@@ -64,11 +64,13 @@ class VehiculeRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-     public function findByVehiculeDisponibles(array $vehiculeLoues){
+     public function findByVehiculeDisponibles(array $vehiculeLoues = []) :array{
         $qb = $this->getEntityManager()->createQueryBuilder();
-        return $this->createQueryBuilder('v')
-                    ->where($qb->expr()->notIn('v.id', $vehiculeLoues)) // WHERE id NOT IN [1,2,3]
-                    ->getQuery()
+        $queryBuilded = $this->createQueryBuilder('v');
+            if(count($vehiculeLoues)){
+                $queryBuilded->where($qb->expr()->notIn('v.id', $vehiculeLoues)); // WHERE id NOT IN [1,2,3]
+            }         
+            return $queryBuilded->getQuery()
                     ->getResult();
     }  
 }

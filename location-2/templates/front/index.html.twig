@@ -4,8 +4,49 @@
 
 
 {% block body %}
-<div class="d-flex justify-content-center">
-    {% include "commun/form-search.html.twig" %}
+<style>
+
+.search_form{
+    background: rgba(255,255,255,0.5);
+    padding: 15px 30px 0 30px;
+    margin-top: -110px ;  
+}
+</style>
+
+<img src="/img/{{ asset("tableau-bord.jpg") }}" alt="" class="img-fluid mb-3" >
+<div class="d-flex justify-content-center search">
+        {{ form_start(form , { 'attr' : { 'class': 'search_form' } }) }}
+            <div class="row align-items-end">
+                <div class="col-5 form-floating">
+                    {{ form_row(form.dt_debut ) }}
+                </div>
+                 <div class="col-5 form-floating">
+                    {{ form_row(form.dt_fin) }}
+                </div>
+                <div class="col-2">
+                    <input type="submit" class="btn btn-success mb-3">
+                </div>
+            </div>
+        {{ form_end(form) }}
 </div>
+
+<main>
+{%  for vehicule in vehicules %}
+    <article class="row">
+        <figure class="offset-3 col-3">
+            <img src="/upload{{ asset(vehicule.photo)}}" alt="" class="img-fluid img-thumbnail border-dark">
+        </figure>
+        <div class="col-3">
+            <h2 class="mb-0">{{vehicule.titre}}</h2>
+            <p class="mb-0">{{vehicule.prixJournalier | deviseFr}}</p>
+            <p>{{vehicule.description}}</p>
+            <a href="{{ path("home_rent" , {"id" : vehicule.id }) }}" class="btn btn-primary">Louer </a>
+        </div>
+    </article>
+{% else %}
+    <p class="alert alert-danger">aucun véhicule enregistré pour le moment</p>
+{% endfor %}
+</main>
+
 
 {% endblock %}

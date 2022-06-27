@@ -1,12 +1,11 @@
 <?php 
 
-
-namespace App\Controller ;
+namespace App\Controller\Admin ;
 
 use App\Entity\Commande;
 use App\Entity\Vehicule;
 use App\Form\CommandeType;
-use DateTime;
+use App\Services\DateService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CommandeController extends AbstractController{
+
+    public function __construct(private DateService $dt_service)
+    {
+        
+    }
 
     #[Route("/admin/commande/list" , name:"commande_list")]
     public function list(EntityManagerInterface $em):Response{
@@ -61,17 +65,10 @@ class CommandeController extends AbstractController{
         // si /admin/commande/new => $commande = null
         // si /admin/commande/update/{id} => $commande = $em->getRepository(Commande::class)->find($id); donc $commande = { }
         if($commande === null){
-            $now = new \DateTime();
-            //$now->add(new \DateInterval("+ 1 "));
-            //$now->format("Y-m-d H:i");
-
-            $tomorrow = new \DateTime();
-            //$tomorrow->add(new \DateInterval("PT1H"));
-            // $tomorrow->format("Y-m-d H:i");
 
             $commande = new Commande();
-            /* $commande->setDateHeureDepart(   $now  )
-                     ->setDateHeureFin( $tomorrow ); */
+            $commande->setDateHeureDepart(   $this->dt_service->now()  )
+                     ->setDateHeureFin( $this->dt_service->demain() ); 
         }
 
         $form = $this->createForm(CommandeType::class, $commande);
