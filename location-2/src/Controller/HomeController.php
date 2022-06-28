@@ -151,7 +151,41 @@ class HomeController extends AbstractController{
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
+             // multiplication = nbjour * prix journalier 
+             $dt_debut = $form->get("date_heure_depart")->getData();
+             $dt_fin = $form->get("date_heure_fin")->getData();
+             $interval = $dt_debut->diff($dt_fin);
+             $interval->format("%d");
+             $nbJours = $interval->days ; 
+ 
+             if($nbJours < 1){
+                 $this->addFlash("message" , "une reservation doit durer 24h au minimum");
+                 //return $this->redirectToRoute("commande_new" , $request->query->all());
+             }
+ 
+ 
+             $listevehiculeLoue = $em->getRepository(Commande::class)->listeVehiculeLoue($dt_debut ,$dt_fin );
+             $vehicule = $form->get("vehicule")->getData();
+             if(in_array( $vehicule->getId() , $listevehiculeLoue)){
+ 
+                 $listevehiculeDisponible = $em->getRepository(Vehicule::class)->findByVehiculeDisponibles($listevehiculeLoue );
+                 // $listevehiculeDisponible
+                 $this->addFlash("message" , "le véhicule demandé est déjà réservé");
+                 $this->addFlash("vehicules" , ["disponibles" => $listevehiculeDisponible] );
+                 //return $this->redirectToRoute("commande_new" , $request->query->all());
+             }
+ 
+             // dd($listevehiculeLoue , $listevehiculeDisponible); 
+ 
+             if(!in_array( $vehicule->getId() , $listevehiculeLoue) && $nbJours >= 1){
+                 $prix_journalier = $vehicule->getPrixJournalier();
+ 
+                 $commande->setPrixTotal($nbJours * $prix_journalier);
+                 $em->persist($commande);
+                 $em->flush();
+                 return $this->redirectToRoute("commande_list");
+                 // regarder dans la base de données 
+             }
 
         }
 
