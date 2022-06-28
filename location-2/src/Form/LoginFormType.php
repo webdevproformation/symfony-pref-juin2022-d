@@ -40,7 +40,7 @@ class LoginFormType extends AbstractType
             ->add('signIn', SubmitType::class,[
                 'label' => 'Sign in',
                 'attr' => [
-                    'class' => 'btn btn-lg btn-primary btn-block'
+                    'class' => 'btn btn-primary'
                 ]
             ])
         ;
@@ -48,8 +48,8 @@ class LoginFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+       /*  $resolver->setDefaults([
             'data_class' => User::class,
-        ]);
+        ]); */
     }
 }

@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $prenom;
 
     #[ORM\Column(type: 'string', length: 1)]
-    #[Assert\Choice(callback:"getGenres")] // validation
+    #[Assert\Choice(callback:"getGenres")] // validation // enum()
     private $civilite;
 
     public function getGenres() : array{

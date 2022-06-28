@@ -7,15 +7,20 @@
         </ul>
 
         <ul class="navbar-nav ms-auto">
+            {% if app.user is null %}
             <li>
                 <a href="{{ path("app_login") }}" class="nav-link">Connexion</a>
             </li>
+            {% else %}
             <li>
                 <a href="{{ path("app_logout")}}" class="nav-link">Déconnexion</a>
             </li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
                 <a href="{{ path("commande_list") }}" class="nav-link">Back Office</a>
             </li>
+            {% endif %}
         </ul>
     </nav>
 </header>

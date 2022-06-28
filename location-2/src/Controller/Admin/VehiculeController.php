@@ -15,15 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route("/admin/vehicule")]
 class VehiculeController extends AbstractController{
 
-    private $em;
-    private $imgService;
 
-    public function __construct(EntityManagerInterface $em, ImageService $imgService)
+    public function __construct(
+            private EntityManagerInterface $em, 
+            private ImageService $imgService)
     {
-        $this->em = $em;
-        $this->imgService = $imgService;
     }
-
 
     #[Route("/list" , name:"vehicule_list")]
     public function list():Response{

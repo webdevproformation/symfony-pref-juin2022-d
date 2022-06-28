@@ -21,6 +21,15 @@ class AppAuthAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
+    public function supports(Request $request): bool
+    {
+        
+        return 
+        ($request->getPathInfo() === '/login' && $request->isMethod('POST')) 
+        || 
+        ( $request->getPathInfo() === "/front/login" && $request->isMethod('POST'));
+    }
+
     private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(UrlGeneratorInterface $urlGenerator)
@@ -49,8 +58,14 @@ class AppAuthAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+        $user = $token->getUser();
+
+        if(in_array("ROLE_ADMIN" , $user->getRoles())){
+            return new RedirectResponse($this->urlGenerator->generate('vehicule_list'));
+        }
+
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('home_end'));
+        return new RedirectResponse($this->urlGenerator->generate('home_index'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
